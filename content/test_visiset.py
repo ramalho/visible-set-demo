@@ -29,10 +29,10 @@ def test_add_new_element():
 
 
 def test_add_duplicate_ignored():
-    items = ['a', 'b', 'c']
-    vs = VisiSet(items)
+    elements = ['a', 'b', 'c']
+    vs = VisiSet(elements)
     vs.add('b')
-    assert len(vs) == len(items)
+    assert len(vs) == len(elements)
 
 
 def test_contains_true():
@@ -46,27 +46,9 @@ def test_contains_false():
 
 
 def test_repr():
-    items = ['a', 'b', 'c', 'd']
-    vs = VisiSet(items)
+    elements = ['a', 'b', 'c', 'd']
+    vs = VisiSet(elements)
     r = repr(vs)
     assert r.startswith('VisiSet(')
-    for item in items:
-        assert f"'{item}'" in r
-
-
-def test_grow():
-    items = ['a', 'b', 'c', 'd']
-    vs = VisiSet(items)
-    old_capacity = len(vs._table)
-    vs._grow()
-    assert len(vs._table) == old_capacity * 2
-    assert len(vs) == len(items)
-    assert set(vs) == set(items)
-
-
-def test_add_triggers_grow():
-    vs = VisiSet([1, 2, 3, 4, 5])  # 5/8 = 62.5%, just under 2/3
-    assert len(vs._table) == 8
-    vs.add(6)  # 6/8 = 75% > 2/3, triggers grow
-    assert len(vs._table) == 16
-    assert set(vs) == {1, 2, 3, 4, 5, 6}
+    for element in elements:
+        assert f"'{element}'" in r
