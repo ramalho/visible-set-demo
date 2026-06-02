@@ -1,3 +1,4 @@
+import sys
 from collections.abc import Iterator
 from typing import NamedTuple
 
@@ -22,10 +23,12 @@ class HashTable:
 
     def __init__(self, size: int = DEFAULT_SIZE) -> None:
         self._element_count = 0
+        self.hash_width = sys.hash_info.width
         self._make_table(size)
 
     def _make_table(self, size: int) -> None:
-        table = np.empty(size, dtype=[('hash', np.int64), ('value', object)])
+        hash_dtype = np.dtype(f'int{self.hash_width}')
+        table = np.empty(size, dtype=[('hash', hash_dtype), ('value', object)])
         table['hash'][:] = EMPTY_HASH
         table['value'][:] = NULL
         self._table = table
@@ -43,7 +46,7 @@ class HashTable:
         return (self._element_count + 1) / len(self._table) > 2 / 3
 
     def _new_row(self, location: Location, element: object) -> None:
-        self._table['hash'][location.offset] = hash(element)
+        self._table['hash'][location.offset] = location.hash_code
         self._table['value'][location.offset] = element
         self._element_count += 1
 

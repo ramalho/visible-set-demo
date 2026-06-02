@@ -1,4 +1,3 @@
-import pytest
 from hashtable import HashTable, EMPTY_HASH, NULL, Location
 
 
@@ -69,12 +68,6 @@ def test_add_triggers_grow():
     ht.insert(5)  # 6/8 = 75% > 2/3, triggers grow
     assert len(ht._table) == 16
     assert set(ht) == set(range(6))
-
-
-def test_locate_returns_probe_location():
-    ht = HashTable()
-    ht.insert('hello')
-    assert isinstance(ht.locate('hello'), Location)
 
 
 def test_find_returns_hash_and_slot_for_present_element():

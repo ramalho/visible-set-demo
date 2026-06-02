@@ -40,8 +40,10 @@ class VisiSet:
     def _fmt_hash(self, h):
         if self._fmt_base == 10:
             return str(int(h))
-        fmt = '064b' if self._fmt_base == 2 else '016x'
-        return f'{int(h) & 0xFFFF_FFFF_FFFF_FFFF:{fmt}}'
+        width = self._hashtable.hash_width
+        fmt = f'{width}b' if self._fmt_base == 2 else f'{width // 4}x'
+        mask = (1 << width) - 1
+        return f'{int(h) & mask:{fmt}}'
 
     def __repr__(self):
         """Instances are represented as:
@@ -76,7 +78,7 @@ class VisiSet:
             VISISET_CSS
             + '<div class="vs-wrap">'
             + '<table class="vs-table">'
-            + '<thead><tr><th>%</th><th>hash</th><th>value</th></tr></thead>'
+            + f'<thead><tr><th>%</th><th>{self._hashtable.hash_width}-bit hash</th><th>pointer to value</th></tr></thead>'
             + '<tbody>'
             + ''.join(rows)
             + '</tbody>'
