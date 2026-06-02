@@ -14,12 +14,12 @@ class VisiSet:
     def update(self, *others):
         for other in others:
             for element in other:
-                self._hashtable.add(element)
+                self._hashtable.insert(element)
 
     # ---- set interface -------------------------------------------------------
 
     def add(self, element):
-        self._hashtable.add(element)
+        self._hashtable.insert(element)
 
     def __contains__(self, element):
         return element in self._hashtable
