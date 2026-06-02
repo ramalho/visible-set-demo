@@ -70,6 +70,13 @@ def test_add_triggers_grow():
     assert set(ht) == set(range(6))
 
 
+def test_insert_stores_correct_hash():
+    ht = HashTable()
+    ht.insert('hello')
+    location = ht.locate('hello')
+    assert ht._table['hash'][location.offset] == hash('hello')
+
+
 def test_find_returns_hash_and_slot_for_present_element():
     ht = HashTable()
     ht.insert('hello')

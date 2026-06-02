@@ -46,7 +46,7 @@ class HashTable:
         return (self._element_count + 1) / len(self._table) > 2 / 3
 
     def _new_row(self, location: Location, element: object) -> None:
-        self._table['hash'][location.offset] = location.hash_code
+        self._table['hash'][location.offset] = hash(element)
         self._table['value'][location.offset] = element
         self._element_count += 1
 
