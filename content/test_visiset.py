@@ -2,6 +2,29 @@ import pytest
 from visiset import VisiSet
 
 
+@pytest.mark.parametrize('hash_code, hash_width, fmt_base, expected', [
+    # hex, 64-bit
+    ( 0, 64, 16, '0000000000000000'),
+    ( 1, 64, 16, '0000000000000001'),
+    (-1, 64, 16, 'ffffffffffffffff'),
+    # hex, 32-bit
+    ( 0, 32, 16, '00000000'),
+    ( 1, 32, 16, '00000001'),
+    (-1, 32, 16, 'ffffffff'),
+    # binary, 64-bit
+    ( 0, 64,  2, '0' * 64),
+    ( 1, 64,  2, '0' * 63 + '1'),
+    (-1, 64,  2, '1' * 64),
+    # binary, 32-bit
+    ( 0, 32,  2, '0' * 32),
+    ( 1, 32,  2, '0' * 31 + '1'),
+    (-1, 32,  2, '1' * 32),
+])
+def test_fmt_hash(hash_code, hash_width, fmt_base, expected):
+    vs = VisiSet(fmt_base=fmt_base)
+    assert vs._fmt_hash(hash_code, hash_width) == expected
+
+
 def test_construction_integers_and_iterable_vs():
     vs = VisiSet([10, 20, 30, 40, 50])
     assert set(vs) == {10, 20, 30, 40, 50}

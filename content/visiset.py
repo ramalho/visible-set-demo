@@ -37,13 +37,12 @@ class VisiSet:
 
     # ---- display -------------------------------------------------------------
 
-    def _fmt_hash(self, h):
+    def _fmt_hash(self, hash_code, hash_width):
         if self._fmt_base == 10:
-            return str(int(h))
-        width = self._hashtable.hash_width
-        fmt = f'{width}b' if self._fmt_base == 2 else f'{width // 4}x'
-        mask = (1 << width) - 1
-        return f'{int(h) & mask:{fmt}}'
+            return str(int(hash_code))
+        fmt = f'0{hash_width}b' if self._fmt_base == 2 else f'0{hash_width // 4}x'
+        mask = (1 << hash_width) - 1
+        return f'{int(hash_code) & mask:{fmt}}'
 
     def __repr__(self):
         """Instances are represented as:
@@ -61,7 +60,7 @@ class VisiSet:
         n = len(table)
         for bucket, row in enumerate(table):
             h = row['hash']
-            h_str = self._fmt_hash(h)
+            h_str = self._fmt_hash(h, self._hashtable.hash_width)
             if row['value'] is NULL:
                 rows.append(
                     f'<tr class="vs-empty"><td></td><td>{h_str}</td><td>{NULL_SYMBOL}</td></tr>'
