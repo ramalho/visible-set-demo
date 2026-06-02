@@ -1,5 +1,7 @@
 # VisiSet class
 
+To view demo, go to: [visible_set.ipynb](https://ramalho.github.io/visible-set-demo/notebooks/index.html?path=visible_set.ipynb)
+
 A set-like collection backed by a numpy array with two columns (hash:int64, value:object).
 
 `VisiSet` instances are rendered in Jupyter as HTML tables showing the hash/value pairs.
